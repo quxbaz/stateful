@@ -1,6 +1,6 @@
 require('node_modules/chai').should();
 
-import {Stateful} from 'stateful';
+import Stateful from 'stateful';
 
 describe('Stateful mixin', () => {
 

@@ -9,7 +9,7 @@ import Sentry from 'sentry';
 let assign = (...args) => Object.assign(...args);
 let uniqId = 0;
 
-export class Stateful {
+export default class Stateful {
 
   constructor(state={}) {
     this.id = uniqId++;
