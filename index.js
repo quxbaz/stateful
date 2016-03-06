@@ -21,9 +21,25 @@ export default class Stateful {
   }
 
   setState(state) {
-    let nextState = assign({}, this.state, state);
-    assign(this.state, this.validateState(nextState));
-    this.event.trigger('change', this.state);
+
+    let mergedState = assign({}, this.state, state);
+    let validatedState = this.validateState(mergedState);
+
+    let hasChanged = false;
+    let keys = Object.keys(state);
+    for (let i=0; i < keys.length; i++) {
+      let key = keys[i];
+      if (this.state[key] !== validatedState[key]) {
+        hasChanged = true;
+        break;
+      }
+    }
+
+    if (hasChanged) {
+      assign(this.state, validatedState);
+      this.trigger('change', this.state);
+    }
+
   }
 
   validateState(nextState) {

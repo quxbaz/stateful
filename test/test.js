@@ -56,15 +56,27 @@ describe('Stateful mixin', () => {
     i.should.eql(2);
   });
 
-  it.skip("avoids triggering handlers on repeating the same state.", () => {
+  it("avoids triggering handlers on repeating the same state.", () => {
     let i = 0;
-    foo.onStateChange((newState) => {
-      i++;
-    });
+    foo.on('change', () => i++);
     foo.setState({a: 1});
     i.should.eql(1);
     foo.setState({a: 1});
     i.should.eql(1);
+  });
+
+  it("tests setState() with array values.", () => {
+    let i = 0;
+    foo.on('change', () => i++);
+    let l = [1, 2];
+    foo.setState({a: l});
+    i.should.eql(1);
+    foo.setState({a: l});
+    i.should.eql(1);
+    foo.setState({a: [1, 2]});
+    i.should.eql(2);
+    foo.setState({a: [1, 2]});
+    i.should.eql(3);
   });
 
 });
