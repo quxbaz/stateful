@@ -79,4 +79,11 @@ describe('Stateful mixin', () => {
     i.should.eql(3);
   });
 
+  it("returns true if setState triggers a change.", () => {
+    foo.setState({foo: 1}).should.be.true;
+    foo.setState({foo: 1}).should.be.false;
+    foo.setState({foo: 2}).should.be.true;
+    foo.setState({foo: 2}).should.be.false;
+  });
+
 });
