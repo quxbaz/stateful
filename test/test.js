@@ -86,4 +86,16 @@ describe('Stateful mixin', () => {
     foo.setState({foo: 2}).should.be.false;
   });
 
+  describe("getInitialState()", () => {
+    class Bar extends Stateful {
+      getInitialState() {return {a:1, b:2}}
+    };
+    it("defines an initial state.", () => {
+      (new Bar()).state.should.eql({a:1, b:2});
+    });
+    it("merges passed state with initial state.", () => {
+      (new Bar({b:3})).state.should.eql({a:1, b:3});
+    });
+  });
+
 });

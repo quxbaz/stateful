@@ -15,9 +15,13 @@ export default class Stateful {
     this.id = uniqId++;
     Object.defineProperty(this, 'state', {
       writable: false,
-      value: assign({}, state)
+      value: assign(this.getInitialState(), state)
     });
     this.event = new Sentry();
+  }
+
+  getInitialState() {
+    return {};
   }
 
   setState(state) {
