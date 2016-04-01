@@ -33,17 +33,6 @@ describe('Stateful mixin', () => {
     foo.state.a.should.eql(2);
   });
 
-  it("triggers a callback on change state.", () => {
-    let i = 0;
-    foo.on('change', (newState) => {
-      i++;
-    });
-    foo.setState({a: 1});
-    i.should.eql(1);
-    foo.setState({a: 2});
-    i.should.eql(2);
-  });
-
   it("detaches a handler function.", () => {
     let i = 0;
     let handler = () => i++;
@@ -95,6 +84,53 @@ describe('Stateful mixin', () => {
     });
     it("merges passed state with initial state.", () => {
       (new Bar({b:3})).state.should.eql({a:1, b:3});
+    });
+  });
+
+
+  describe("changed state", () => {
+    it("triggers a callback on change state.", () => {
+      let i = 0;
+      foo.on('change', (newState) => i++);
+      foo.setState({a: 1});
+      i.should.eql(1);
+      foo.setState({a: 2});
+      i.should.eql(2);
+    });
+    it("triggers a change state with arrays.", () => {
+      let i = 0;
+      foo.on('change', (newState) => i++);
+      foo.setState({a: [1]});
+      i.should.eql(1);
+      let a = [1];
+      foo.setState({a});
+      i.should.eql(2);
+      foo.setState({a});
+      i.should.eql(2);
+    });
+    it("triggers a change state with nested arrays.", () => {
+      let i = 0;
+      foo.on('change', (newState) => i++);
+      foo.setState({a: [[0]]});
+      i.should.eql(1);
+      foo.setState({a: [[1]]});
+      i.should.eql(2);
+      let a = [[1]];
+      foo.setState({a});
+      i.should.eql(3);
+      a[0][0] = 0;
+      foo.setState({a});
+      i.should.eql(3);
+    });
+    it("triggers a change state with JSON.parse and JSON.stringify.", () => {
+      let i = 0;
+      foo.on('change', (newState) => i++);
+      let a = [[1]];
+      foo.setState({a});
+      i.should.eql(1);
+      a = JSON.parse(JSON.stringify(a));
+      foo.setState({a});
+      i.should.eql(2);
     });
   });
 
