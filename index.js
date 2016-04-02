@@ -48,9 +48,9 @@ export default class Stateful {
       assign(this.state, validatedState);
       if (!silent)
         this.trigger('change', this.state);
-      return true;
-    } else
-      return false;
+    }
+
+    return hasChanged;
 
   }
 
