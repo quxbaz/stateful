@@ -24,7 +24,12 @@ export default class Stateful {
     return {};
   }
 
-  setState(state) {
+  setState(state, silent=false) {
+
+    /*
+      If @silent is true, this function will not trigger a 'change'
+      event on matter what.
+    */
 
     let mergedState = assign({}, this.state, state);
     let validatedState = this.validateState(mergedState);
@@ -41,7 +46,8 @@ export default class Stateful {
 
     if (hasChanged) {
       assign(this.state, validatedState);
-      this.trigger('change', this.state);
+      if (!silent)
+        this.trigger('change', this.state);
       return true;
     } else
       return false;

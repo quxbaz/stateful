@@ -132,6 +132,12 @@ describe('Stateful mixin', () => {
       foo.setState({a});
       i.should.eql(2);
     });
+    it("suppresses 'change' events.", () => {
+      let i = 0;
+      foo.on('change', (newState) => i++);
+      foo.setState({a:1}, true);
+      i.should.eql(0);
+    });
   });
 
 });
