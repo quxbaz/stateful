@@ -12,7 +12,6 @@ let uniqId = 0;
 export default class Stateful {
 
   constructor(state={}) {
-    this.id = uniqId++;
     Object.defineProperty(this, 'state', {
       writable: false,
       value: assign(this.getInitialState(), state)
